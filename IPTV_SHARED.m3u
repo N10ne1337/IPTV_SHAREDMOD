@@ -2254,7 +2254,7 @@ https://bl.rutube.ru/livestream/dcc02ed1ff97923541c6d4c030c54c65/index.m3u8?s=AF
 
 
 #EXTINF:-1 tvg-id="cartoonnetwork" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cartoon_Network_2010_logo.svg/1280px-Cartoon_Network_2010_logo.svg.png" group-title="Детские", Cartoon Network
-https://cdntvmedia.com/player/playerjs.html?file=https://tv.tvcdnpotok.com/2042/index.m3u8?w msAuthSign=bebfde1965bdfa8fa1b6ee8c48d8b375-1753269450-04i122i99i73
+https://tv.tvcdnpotok.com/eNi0tQmuoVEaaaK3GL9goA/2042/1753269516/index.m3u8
 
 #EXTINF:-1 tvg-id="cartoonito" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/a/a5/Cartoonito_-_Logo_2021.svg" group-title="Детские", CartonitoRU
 https://tv.tvcdnpotok.com/uPjuFec69YIOdEwHvTdadA/2043/1753205420/index.m3u8
