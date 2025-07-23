@@ -2254,10 +2254,10 @@ https://bl.rutube.ru/livestream/dcc02ed1ff97923541c6d4c030c54c65/index.m3u8?s=AF
 
 
 #EXTINF:-1 tvg-id="cartoonnetwork" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cartoon_Network_2010_logo.svg/1280px-Cartoon_Network_2010_logo.svg.png" group-title="Детские", Cartoon Network
-https://cdntvmedia.com/player/playerjs.html?file=https://tv.tvcdnpotok.com/2042/index.m3u8?wmsAuthSign=8b5e14555af5714906e281657d610a58-1753292131-04i122i99i73
+https://cdntvmedia.com/player/<!DOCTYPE html PUBLIC "-/W3C/DTD XHTML 1.0 Strict/EN" "http:/www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 #EXTINF:-1 tvg-id="cartoonito" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/a/a5/Cartoonito_-_Logo_2021.svg" group-title="Детские", CartonitoRU
-https://cdntvmedia.com/player/playerjs.html?file=https://tv.tvcdnpotok.com/2043/index.m3u8?wmsAuthSign=a10b4e2e94e008b5c5db83ff6f37fcff-1753292243-04i122i99i73
+https://cdntvmedia.com/player/<!DOCTYPE html PUBLIC "-/W3C/DTD XHTML 1.0 Strict/EN" "http:/www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 #EXTINF:-1 tvg-id="disney" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" group-title="Детские", Disney Channel
 https://fl5.moveonjoy.com/DISNEY/tracks-v1a1/mono.ts.m3u8
