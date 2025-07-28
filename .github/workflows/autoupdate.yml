@@ -1,0 +1,34 @@
+name: Auto Update IPTV Playlist (TERMINATOR PROTOCOL)
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-playlist-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # --- НОВЫЙ БЛОК: Устанавливаем оборудование для шпиона ---
+      - name: Install Google Chrome
+        uses: browser-actions/setup-chrome@latest
+      
+      - name: Install dependencies
+        run: pip install requests selenium
+
+      - name: Run the TERMINATOR script
+        run: python update_playlist.py
+
+      - name: Commit and push if changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'AUTOMATED: TERMINATOR PROTOCOL ENGAGED'
+          file_pattern: 'my_playlist.m3u'
