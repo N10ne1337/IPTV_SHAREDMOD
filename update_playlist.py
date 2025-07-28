@@ -1,5 +1,5 @@
 # Имя файла: update_playlist.py
-# ВЕРСИЯ 5.2 - УЛУЧШЕННЫЙ ПАРСЕР M3U
+# ВЕРСИЯ 5.3 - СОХРАНЯЕТ ВСЕ КАНАЛЫ (никого не удаляет)
 
 import requests
 import re
@@ -81,7 +81,7 @@ def parse_playlist_content_bulletproof(content):
 
 
 def main():
-    print(">>> Запуск обновления (v5.2 - Улучшенный парсер для M3U)...")
+    print(">>> Запуск обновления (v5.3 - Сохраняет ВСЕ каналы)...")
 
     # 1. Скачиваем оригинал
     try:
@@ -95,14 +95,10 @@ def main():
         upstream_count = len(upstream_channels)
         print(f"[+] УСПЕХ! Найдено {upstream_count} каналов в оригинальном плейлисте.")
 
-        if upstream_count < 100:  # Снизил порог для тестирования
+        if upstream_count < 100:
             print(f"[!] ВНИМАНИЕ: Подозрительно мало ({upstream_count}) каналов.")
-            # Для отладки покажем первые несколько каналов
             channel_names = list(upstream_channels.keys())[:10]
             print(f"[DEBUG] Первые найденные каналы: {channel_names}")
-            
-            # Не прерываем выполнение для отладки
-            # exit(1)
 
     except requests.exceptions.RequestException as e:
         print(f"[!!!] Ошибка при скачивании: {e}")
@@ -119,34 +115,52 @@ def main():
     except FileNotFoundError:
         print("[-] Локальный файл не найден. Используем только оригинал.")
 
-    # 3. Сохраняем уникальные каналы
-    custom_channels_to_add = []
-    print("[*] Ищу уникальные локальные каналы...")
-    for name, info in local_channels.items():
+    # 3. НОВАЯ ЛОГИКА: Объединяем каналы, сохраняя ВСЕ
+    print("[*] Объединяю каналы (сохраняю все существующие)...")
+    
+    # Начинаем с локальных каналов (сохраняем всё что было)
+    merged_channels = local_channels.copy()
+    
+    # Считаем статистику
+    new_channels = []
+    updated_channels = []
+    
+    # Добавляем/обновляем каналы из оригинального плейлиста
+    for name, info in upstream_channels.items():
+        if name in merged_channels:
+            # Канал уже есть - обновляем его
+            if merged_channels[name] != info:
+                print(f"    ↻ Обновляю канал: '{name}'")
+                merged_channels[name] = info
+                updated_channels.append(name)
+        else:
+            # Новый канал - добавляем
+            print(f"    + Добавляю новый канал: '{name}'")
+            merged_channels[name] = info
+            new_channels.append(name)
+    
+    # Каналы, которые остались только в локальном файле (НЕ удаляем их!)
+    preserved_channels = []
+    for name in local_channels:
         if name not in upstream_channels:
-            print(f"    -> Добавляю канал: '{name}'")
-            custom_channels_to_add.append(info)
+            preserved_channels.append(name)
+    
+    if preserved_channels:
+        print(f"[*] Сохраняю {len(preserved_channels)} каналов, которых нет в оригинале:")
+        for name in preserved_channels[:10]:  # Показываем первые 10
+            print(f"    ☑ Сохранён: '{name}'")
+        if len(preserved_channels) > 10:
+            print(f"    ... и ещё {len(preserved_channels) - 10} каналов")
 
-    # 4. Объединяем
+    # 4. Формируем финальный плейлист
     print("[*] Формирую финальный плейлист...")
     
-    # Сохраняем заголовок M3U
-    final_content_lines = []
+    final_content_lines = ['#EXTM3U']
     
-    # Добавляем заголовок если его нет
-    if not upstream_content.strip().startswith('#EXTM3U'):
-        final_content_lines.append('#EXTM3U')
+    # Добавляем все объединённые каналы
+    for channel_info in merged_channels.values():
+        final_content_lines.append(channel_info)
     
-    # Добавляем оригинальный контент
-    final_content_lines.append(upstream_content.strip())
-    
-    # Добавляем уникальные каналы
-    if custom_channels_to_add:
-        final_content_lines.extend(custom_channels_to_add)
-        print(f"[+] Добавлено {len(custom_channels_to_add)} уникальных каналов.")
-    else:
-        print("[-] Уникальных каналов не найдено.")
-
     final_playlist_content = '\n\n'.join(final_content_lines)
 
     # 5. Записываем результат
@@ -158,12 +172,21 @@ def main():
         print(f"[!!!] Ошибка при записи: {e}")
         exit(1)
 
-    # 6. Финальная статистика
-    final_count = len(parse_playlist_content_bulletproof(final_playlist_content))
-    print(f"[📊] Финальный отчёт:")
+    # 6. Детальная статистика
+    final_count = len(merged_channels)
+    print(f"[📊] Подробный отчёт:")
     print(f"      - Каналов в оригинале: {upstream_count}")
-    print(f"      - Уникальных ваших: {len(custom_channels_to_add)}")
-    print(f"      - Итоговое количество каналов: {final_count}")
+    print(f"      - Каналов в локальном файле было: {len(local_channels)}")
+    print(f"      - Новых каналов добавлено: {len(new_channels)}")
+    print(f"      - Каналов обновлено: {len(updated_channels)}")
+    print(f"      - Уникальных локальных каналов сохранено: {len(preserved_channels)}")
+    print(f"      - ИТОГО каналов в финальном плейлисте: {final_count}")
+    
+    # Показываем, что изменилось
+    if new_channels or updated_channels:
+        print(f"[🔄] Произошли изменения: +{len(new_channels)} новых, ~{len(updated_channels)} обновлено")
+    else:
+        print(f"[➖] Изменений не обнаружено")
 
 
 if __name__ == "__main__":
