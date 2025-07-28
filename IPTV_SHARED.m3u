@@ -2259,6 +2259,9 @@ https://s7.merlive.am/CartoonNetwork/playlist.m3u8
 #EXTINF:-1 tvg-id="cartoonito" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/a/a5/Cartoonito_-_Logo_2021.svg" group-title="Детские", CartonitoRU
 https://tv.tvcdnpotok.com/WXpoRPHSUV56MgF_eUHdMA/2043/1753725694/index.m3u8
 
+#EXTINF:-1 tvg-id="disneyjr" tvg-logo="https://static.wikia.nocookie.net/disney/images/a/a8/Disney_Jr._2024_logo.svg/revision/latest?cb=20240601181634" group-title="Детские", Disney Junior
+https://f15.moveonjoy.com/DISNEY_XD/tracks-v1a1/mono.ts.m3u8
+
 #EXTINF:-1 tvg-id="disney" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" group-title="Детские", Disney Channel
 https://fl5.moveonjoy.com/DISNEY/tracks-v1a1/mono.ts.m3u8
 
