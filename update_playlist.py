@@ -6,9 +6,9 @@ import os
 
 # --- НАСТРОЙКИ ---
 # URL оригинального плейлиста, откуда берем обновления
-UPSTREAM_URL = "https://raw.githubusercontent.com/IPTVSHARED/iptv/main/.m3u"
+UPSTREAM_URL = "https://raw.githubusercontent.com/IPTVSHARED/iptv/main/IPTV_SHARED.m3u"
 # Имя вашего файла плейлиста в репозитории
-LOCAL_FILE = "iptv.m3u"
+LOCAL_FILE = "IPTV_SHARED.m3u"
 # --- КОНЕЦ НАСТРОЕК ---
 
 def get_channels_from_content(content):
