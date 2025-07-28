@@ -1,34 +1,45 @@
 # Имя файла: update_playlist.py
+# ВЕРСИЯ 2.0 - УЛУЧШЕННАЯ И НАДЕЖНАЯ
 
 import requests
 import re
-import os
 
 # --- НАСТРОЙКИ ---
-# URL оригинального плейлиста, откуда берем обновления
 UPSTREAM_URL = "https://raw.githubusercontent.com/IPTVSHARED/iptv/main/IPTV_SHARED.m3u"
-# Имя вашего файла плейлиста в репозитории
 LOCAL_FILE = "IPTV_SHARED.m3u"
 # --- КОНЕЦ НАСТРОЕК ---
 
 def get_channels_from_content(content):
     """
-    Извлекает каналы из текста плейлиста.
-    Каждый канал - это пара строк: #EXTINF и ссылка.
-    Возвращает словарь, где ключ - название канала, а значение - полная информация о канале.
+    НОВЫЙ, БОЛЕЕ НАДЕЖНЫЙ СПОСОБ чтения каналов.
+    Читает файл построчно, чтобы избежать ошибок парсинга.
     """
     channels = {}
-    # Ищем блоки, начинающиеся с #EXTINF, содержащие tvg-name, и заканчивающиеся ссылкой
-    # Это регулярное выражение более устойчиво к разным форматам #EXTINF
-    pattern = re.compile(r'(#EXTINF:-1.*?tvg-name="(.*?)".*?(\n|\r\n))(http.*?)(?=\n#EXTINF|\Z)', re.DOTALL)
-    for match in pattern.finditer(content):
-        extinf_line, channel_name, newline, url_line = match.groups()
-        full_channel_block = f"{extinf_line.strip()}{newline}{url_line.strip()}"
-        channels[channel_name.strip()] = full_channel_block
+    lines = content.splitlines()
+    
+    current_extinf = None
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+            
+        if line.startswith('#EXTINF'):
+            current_extinf = line
+        elif line.startswith('http') and current_extinf:
+            # Пытаемся извлечь tvg-name из строки #EXTINF
+            match = re.search(r'tvg-name="(.*?)"', current_extinf)
+            if match:
+                channel_name = match.group(1).strip()
+                # Сохраняем полную информацию: строку #EXTINF и ссылку на следующей строке
+                full_channel_block = f"{current_extinf}\n{line}"
+                channels[channel_name] = full_channel_block
+            # Сбрасываем, чтобы искать следующую пару
+            current_extinf = None
+            
     return channels
 
 def main():
-    print(">>> Начинаю процесс обновления плейлиста...")
+    print(">>> Начинаю процесс обновления плейлиста (v2.0 - Надежный режим)...")
 
     # 1. Скачиваем актуальный плейлист из оригинального репозитория
     try:
@@ -37,50 +48,47 @@ def main():
         response.raise_for_status()
         upstream_content = response.text
         upstream_channels = get_channels_from_content(upstream_content)
-        print(f"[+] Найдено {len(upstream_channels)} каналов в оригинальном плейлисте.")
+        print(f"[+] Найдено {len(upstream_channels)} каналов в оригинальном плейлисте. (Корректный подсчет)")
+        if len(upstream_channels) < 500: # Проверка на адекватность
+            print("[!] Внимание: из оригинала загружено подозрительно мало каналов. Прерываю, чтобы не сломать ваш плейлист.")
+            exit(1)
     except requests.exceptions.RequestException as e:
         print(f"[!] Ошибка при скачивании оригинального плейлиста: {e}")
-        # Если не удалось скачать, прекращаем работу, чтобы не сломать ваш плейлист
         exit(1)
 
-    # 2. Читаем ваш локальный плейлист, чтобы найти уникальные каналы
+    # 2. Читаем ваш локальный плейлист
     try:
         print(f"[*] Читаю ваш локальный файл: {LOCAL_FILE}")
         with open(LOCAL_FILE, 'r', encoding='utf-8') as f:
             local_content = f.read()
         local_channels = get_channels_from_content(local_content)
-        print(f"[+] Найдено {len(local_channels)} каналов в вашем плейлисте.")
+        print(f"[+] Найдено {len(local_channels)} каналов в вашем текущем плейлисте.")
     except FileNotFoundError:
-        print(f"[!] Локальный файл {LOCAL_FILE} не найден. Это первый запуск? Создаю его...")
+        print(f"[!] Локальный файл {LOCAL_FILE} не найден. Пропускаем этот шаг.")
         local_channels = {}
 
-    # 3. Находим ваши уникальные каналы (те, что есть у вас, но нет в оригинале)
+    # 3. Находим ваши уникальные каналы
     custom_channels_to_add = []
-    print("[*] Ищу уникальные каналы в вашем плейлисте...")
+    print("[*] Сравниваю плейлисты и ищу ваши уникальные каналы...")
     for name, info in local_channels.items():
         if name not in upstream_channels:
             print(f"    -> Найден ваш уникальный канал: '{name}'. Он будет сохранен.")
             custom_channels_to_add.append(info)
 
     # 4. Формируем новый плейлист
-    # Сначала берем заголовок (#EXTM3U) и все свежие каналы из скачанного оригинала
-    final_playlist_parts = []
-    # Добавляем заголовок из оригинала
-    if upstream_content.startswith("#EXTM3U"):
-        final_playlist_parts.append(upstream_content.splitlines()[0])
-
-    # Добавляем все каналы из оригинала в том же порядке
-    final_playlist_parts.extend(upstream_channels.values())
+    print("[*] Формирую новый объединенный плейлист...")
+    
+    # Берем весь оригинальный контент как есть, чтобы сохранить его структуру
+    final_playlist_content = upstream_content.strip()
 
     # Если нашли уникальные каналы, добавляем их в конец
     if custom_channels_to_add:
         print(f"[+] Добавляю {len(custom_channels_to_add)} ваших уникальных каналов в конец плейлиста.")
-        final_playlist_parts.extend(custom_channels_to_add)
+        # Добавляем пустую строку для разделения
+        final_playlist_content += "\n\n"
+        final_playlist_content += "\n".join(custom_channels_to_add)
 
-    # Собираем всё в одну строку с переносами
-    final_playlist_content = "\n".join(final_playlist_parts)
-
-    # 5. Записываем результат в ваш файл iptv.m3u
+    # 5. Записываем результат в ваш файл
     try:
         with open(LOCAL_FILE, 'w', encoding='utf-8') as f:
             f.write(final_playlist_content)
