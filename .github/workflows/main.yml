@@ -13,7 +13,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Получаем полную историю
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
         
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -30,31 +31,37 @@ jobs:
         git config --global user.name 'GitHub Actions Bot'
         git config --global user.email 'actions@github.com'
         
-    - name: Sync with remote
+    - name: Force sync with remote (resolve divergence)
       run: |
-        # Сбрасываем локальные изменения и синхронизируемся с remote
+        echo "Текущее состояние:"
+        git status
+        echo ""
+        echo "Принудительная синхронизация с origin/main..."
         git fetch origin
+        git checkout main
         git reset --hard origin/main
+        echo "Синхронизация завершена"
         
     - name: Run update script
-      run: python update_playlist.py
-      
-    - name: Check for changes
-      id: verify-changed-files
+      run: |
+        echo "Запуск скрипта обновления..."
+        python update_playlist.py
+        
+    - name: Check for changes and commit
       run: |
         if [ -n "$(git status --porcelain)" ]; then
-          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "Обнаружены изменения, делаем коммит..."
+          git add IPTV_SHARED.m3u
+          git commit -m "🤖✅ Авто-обновление: плейлист синхронизирован $(date '+%Y-%m-%d %H:%M:%S UTC')"
+          
+          echo "Попытка push..."
+          if git push origin main; then
+            echo "✅ Push успешно выполнен"
+          else
+            echo "❌ Обычный push не удался, пробуем force push..."
+            git push origin main --force
+            echo "✅ Force push выполнен"
+          fi
         else
-          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "Изменений не обнаружено"
         fi
-        
-    - name: Commit and push changes
-      if: steps.verify-changed-files.outputs.changed == 'true'
-      run: |
-        git add IPTV_SHARED.m3u
-        git commit -m "🤖✅ Авто-обновление: плейлист синхронизирован $(date '+%Y-%m-%d %H:%M:%S')"
-        git push origin main --force-with-lease
-        
-    - name: No changes detected
-      if: steps.verify-changed-files.outputs.changed == 'false'
-      run: echo "Изменений не обнаружено, коммит не требуется"
