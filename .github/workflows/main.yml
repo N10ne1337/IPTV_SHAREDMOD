@@ -1,34 +1,46 @@
-name: Auto Update IPTV Playlist (TERMINATOR PROTOCOL)
+# Имя файла: .github/workflows/sync.yml
+
+name: 'Авто-синхронизация плейлиста'
 
 on:
+  # 1. Запускать автоматически каждые 6 часов
   schedule:
     - cron: '0 */6 * * *'
+  # 2. Позволяет запускать вручную со страницы Actions для теста
   workflow_dispatch:
 
 jobs:
-  update-playlist-job:
+  sync-playlist:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Даем разрешение на запись в репозиторий
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # Шаг 1: Скачиваем код вашего репозитория на сервер GitHub
+      - name: 'Получение кода репозитория'
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      # Шаг 2: Устанавливаем Python для запуска нашего скрипта
+      - name: 'Установка Python'
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # --- НОВЫЙ БЛОК: Устанавливаем оборудование для шпиона ---
-      - name: Install Google Chrome
-        uses: browser-actions/setup-chrome@latest
-      
-      - name: Install dependencies
-        run: pip install requests selenium
+      # Шаг 3: Устанавливаем библиотеку `requests`, которая нужна для скачивания плейлиста
+      - name: 'Установка зависимостей'
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
-      - name: Run the TERMINATOR script
+      # Шаг 4: Запускаем наш основной скрипт обновления
+      - name: 'Запуск скрипта обновления плейлиста'
         run: python update_playlist.py
 
-      - name: Commit and push if changed
+      # Шаг 5: Сохраняем изменения (делаем коммит), если файл iptv.m3u был изменен
+      - name: 'Сохранение изменений в репозиторий'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'AUTOMATED: TERMINATOR PROTOCOL ENGAGED'
-          file_pattern: 'IPTV_SHARED.m3u'
+          commit_message: '🤖 Авто-обновление: плейлист синхронизирован'
+          file_pattern: 'IPTV_SHARED.m3u' # Сохранять изменения только в этом файле
+          commit_user_name: 'GitHub Actions Bot' # Имя бота-коммитера
+          commit_user_email: 'actions@github.com'
+          commit_author: 'GitHub Actions Bot <actions@github.com>'
