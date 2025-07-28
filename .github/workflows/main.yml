@@ -27,6 +27,9 @@ jobs:
       - name: Go to py file
         run: cd .github/workflows/
 
+      - name: Test the directory
+        run: ls
+
       - name: Run the TERMINATOR script
         run: python update_playlist.py
 
