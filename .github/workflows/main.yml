@@ -1,43 +1,60 @@
-# Файл: .github/workflows/sync.yml
-# Эта версия правильная, ее можно не трогать, если она уже такая.
-
-name: 'Авто-синхронизация плейлиста'
+name: Update IPTV Playlist
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
+    - cron: '0 */6 * * *'  # Каждые 6 часов
+  workflow_dispatch:  # Ручной запуск
 
 jobs:
-  sync-playlist:
+  update:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    
     steps:
-      - name: 'Получение кода репозитория'
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 'Установка Python'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: 'Установка зависимостей'
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests
-
-      - name: 'Запуск скрипта обновления плейлиста'
-        run: python update_playlist.py
-
-      - name: 'Сохранение изменений в репозиторий'
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: '🤖✅ Авто-обновление: плейлист синхронизирован'
-          # Важно: имя файла должно совпадать с вашим
-          file_pattern: 'IPTV_SHARED.m3u' 
-          commit_user_name: 'GitHub Actions Bot'
-          commit_user_email: 'actions@github.com'
-          commit_author: 'GitHub Actions Bot <actions@github.com>'
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Получаем полную историю
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        
+    - name: Configure Git
+      run: |
+        git config --global user.name 'GitHub Actions Bot'
+        git config --global user.email 'actions@github.com'
+        
+    - name: Sync with remote
+      run: |
+        # Сбрасываем локальные изменения и синхронизируемся с remote
+        git fetch origin
+        git reset --hard origin/main
+        
+    - name: Run update script
+      run: python update_playlist.py
+      
+    - name: Check for changes
+      id: verify-changed-files
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+        else
+          echo "changed=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Commit and push changes
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        git add IPTV_SHARED.m3u
+        git commit -m "🤖✅ Авто-обновление: плейлист синхронизирован $(date '+%Y-%m-%d %H:%M:%S')"
+        git push origin main --force-with-lease
+        
+    - name: No changes detected
+      if: steps.verify-changed-files.outputs.changed == 'false'
+      run: echo "Изменений не обнаружено, коммит не требуется"
