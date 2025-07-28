@@ -1,125 +1,93 @@
+# Имя файла: update_playlist.py
+
 import requests
 import re
-import json
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import time
+import os
 
 # --- НАСТРОЙКИ ---
-SOURCE_URL = "https://gitlab.com/iptv135435/iptvshared/-/raw/main/IPTV_SHARED.m3u"
-MY_PLAYLIST_FILE = "IPTV_SHARED.m3u"
-SPECIAL_OPS_FILE = "channels_to_protect.json"
-MAX_WORKERS = 10
-URL_TIMEOUT = 10
+# URL оригинального плейлиста, откуда берем обновления
+UPSTREAM_URL = "https://raw.githubusercontent.com/IPTVSHARED/iptv/main/.m3u"
+# Имя вашего файла плейлиста в репозитории
+LOCAL_FILE = "iptv.m3u"
+# --- КОНЕЦ НАСТРОЕК ---
 
-# --- ЛОГИКА ---
-
-def parse_simple_playlist(text):
-    return set(re.findall(r'^(http.*)$', text, re.MULTILINE))
-
-def scrape_m3u8_from_site(page_url, identifier):
-    print(f"🕵️‍♂️ [ШПИОН] Внедряюсь на {page_url}...")
-    try:
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        
-        caps = DesiredCapabilities.CHROME
-        caps['goog:loggingPrefs'] = {'performance': 'ALL'}
-
-        driver = webdriver.Chrome(options=chrome_options, desired_capabilities=caps)
-        driver.get(page_url)
-        time.sleep(15)
-
-        logs = driver.get_log('performance')
-        driver.quit()
-
-        for entry in logs:
-            log = json.loads(entry['message'])['message']
-            if 'Network.requestWillBeSent' in log['method']:
-                url = log['params']['request']['url']
-                if '.m3u8' in url and identifier in url:
-                    print(f"  ✅ [ШПИОН] Секретные данные добыты: ...{url[-50:]}")
-                    return url
-        
-        print(f"  ❌ [ШПИОН] Не удалось найти ссылку с идентификатором '{identifier}'.")
-        return None
-    except Exception as e:
-        print(f"  🔥 [ШПИОН] Миссия провалена! Ошибка: {e}")
-        return None
-
-def check_url(url):
-    if not url: return None
-    try:
-        response = requests.head(url, timeout=URL_TIMEOUT, allow_redirects=True)
-        if response.status_code == 200:
-            print(f"  👍 Ссылка жива: {url.split('/')[-1]}")
-            return url
-    except requests.RequestException:
-        pass
-    print(f"  👎 Ссылка мертва: {url.split('/')[-1]}")
-    return None
+def get_channels_from_content(content):
+    """
+    Извлекает каналы из текста плейлиста.
+    Каждый канал - это пара строк: #EXTINF и ссылка.
+    Возвращает словарь, где ключ - название канала, а значение - полная информация о канале.
+    """
+    channels = {}
+    # Ищем блоки, начинающиеся с #EXTINF, содержащие tvg-name, и заканчивающиеся ссылкой
+    # Это регулярное выражение более устойчиво к разным форматам #EXTINF
+    pattern = re.compile(r'(#EXTINF:-1.*?tvg-name="(.*?)".*?(\n|\r\n))(http.*?)(?=\n#EXTINF|\Z)', re.DOTALL)
+    for match in pattern.finditer(content):
+        extinf_line, channel_name, newline, url_line = match.groups()
+        full_channel_block = f"{extinf_line.strip()}{newline}{url_line.strip()}"
+        channels[channel_name.strip()] = full_channel_block
+    return channels
 
 def main():
-    print("🚀 Запускаю протокол 'ТЕРМИНАТОР'!")
-    
-    final_urls = {}
-    
-    # --- НОВЫЙ, ПУЛЕНЕПРОБИВАЕМЫЙ БЛОК ---
+    print(">>> Начинаю процесс обновления плейлиста...")
+
+    # 1. Скачиваем актуальный плейлист из оригинального репозитория
     try:
-        with open(SPECIAL_OPS_FILE, 'r', encoding='utf-8') as f:
-            special_channels = json.load(f).get("special_channels", [])
-        
-        print(f"ℹ️ Досье {SPECIAL_OPS_FILE} успешно прочитано.")
-        for channel in special_channels:
-            url = scrape_m3u8_from_site(channel["page_url"], channel["stream_identifier"])
-            if url:
-                final_urls[channel["name"]] = url
+        print(f"[*] Скачиваю оригинальный плейлист из: {UPSTREAM_URL}")
+        response = requests.get(UPSTREAM_URL, timeout=30)
+        response.raise_for_status()
+        upstream_content = response.text
+        upstream_channels = get_channels_from_content(upstream_content)
+        print(f"[+] Найдено {len(upstream_channels)} каналов в оригинальном плейлисте.")
+    except requests.exceptions.RequestException as e:
+        print(f"[!] Ошибка при скачивании оригинального плейлиста: {e}")
+        # Если не удалось скачать, прекращаем работу, чтобы не сломать ваш плейлист
+        exit(1)
+
+    # 2. Читаем ваш локальный плейлист, чтобы найти уникальные каналы
+    try:
+        print(f"[*] Читаю ваш локальный файл: {LOCAL_FILE}")
+        with open(LOCAL_FILE, 'r', encoding='utf-8') as f:
+            local_content = f.read()
+        local_channels = get_channels_from_content(local_content)
+        print(f"[+] Найдено {len(local_channels)} каналов в вашем плейлисте.")
     except FileNotFoundError:
-        print(f"ℹ️ Файл {SPECIAL_OPS_FILE} не найден. Шпионская миссия отменена.")
-    except json.JSONDecodeError:
-        # ВОТ ГЛАВНАЯ МАГИЯ. ЛОВИМ ОШИБКУ И НЕ ПАДАЕМ.
-        print(f"🔥 КРИТИЧЕСКАЯ ОШИБКА: Не могу прочитать {SPECIAL_OPS_FILE}! В нем ошибка синтаксиса. Проверьте его на сайте jsonlint.com. Шпионская миссия отменена, продолжаю с остальными задачами.")
-    except Exception as e:
-        print(f"🔥 Неизвестная ошибка при работе с {SPECIAL_OPS_FILE}: {e}. Шпионская миссия отменена.")
-    # --- КОНЕЦ ПУЛЕНЕПРОБИВАЕМОГО БЛОКА ---
+        print(f"[!] Локальный файл {LOCAL_FILE} не найден. Это первый запуск? Создаю его...")
+        local_channels = {}
 
-    source_urls = set()
+    # 3. Находим ваши уникальные каналы (те, что есть у вас, но нет в оригинале)
+    custom_channels_to_add = []
+    print("[*] Ищу уникальные каналы в вашем плейлисте...")
+    for name, info in local_channels.items():
+        if name not in upstream_channels:
+            print(f"    -> Найден ваш уникальный канал: '{name}'. Он будет сохранен.")
+            custom_channels_to_add.append(info)
+
+    # 4. Формируем новый плейлист
+    # Сначала берем заголовок (#EXTM3U) и все свежие каналы из скачанного оригинала
+    final_playlist_parts = []
+    # Добавляем заголовок из оригинала
+    if upstream_content.startswith("#EXTM3U"):
+        final_playlist_parts.append(upstream_content.splitlines()[0])
+
+    # Добавляем все каналы из оригинала в том же порядке
+    final_playlist_parts.extend(upstream_channels.values())
+
+    # Если нашли уникальные каналы, добавляем их в конец
+    if custom_channels_to_add:
+        print(f"[+] Добавляю {len(custom_channels_to_add)} ваших уникальных каналов в конец плейлиста.")
+        final_playlist_parts.extend(custom_channels_to_add)
+
+    # Собираем всё в одну строку с переносами
+    final_playlist_content = "\n".join(final_playlist_parts)
+
+    # 5. Записываем результат в ваш файл iptv.m3u
     try:
-        response = requests.get(SOURCE_URL, timeout=20)
-        if response.status_code == 200:
-            source_urls = parse_simple_playlist(response.text)
-        print(f"📥 Загружен публичный плейлист. Найдено {len(source_urls)} кандидатов.")
+        with open(LOCAL_FILE, 'w', encoding='utf-8') as f:
+            f.write(final_playlist_content)
+        print(f"[✓] Готово! Объединенный плейлист успешно сохранен в файл {LOCAL_FILE}.")
     except Exception as e:
-        print(f"⚠️ Не удалось скачать публичный плейлист: {e}")
-
-    print(f"🔥 Проверяю {len(source_urls)} ссылок из источника...")
-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        futures = [executor.submit(check_url, url) for url in source_urls]
-        for future in as_completed(futures):
-            result_url = future.result()
-            if result_url:
-                name = result_url.split('/')[-1].split('.')[0] or "Канал"
-                if name not in final_urls:
-                    final_urls[name] = result_url
-    
-    if not final_urls:
-        print("🔴 Не найдено ни одного рабочего канала. Файл не будет изменен.")
-        return
-
-    print(f"\n📝 Собираю финальный плейлист из {len(final_urls)} каналов...")
-    sorted_names = sorted(final_urls.keys())
-    with open(MY_PLAYLIST_FILE, 'w', encoding='utf-8') as f:
-        f.write("#EXTM3U\n")
-        for name in sorted_names:
-            url = final_urls[name]
-            f.write(f"#EXTINF:-1,{name}\n")
-            f.write(f"{url}\n")
-            
-    print("✅ Протокол 'ТЕРМИНАТОР' выполнен успешно!")
+        print(f"[!] Не удалось записать файл: {e}")
+        exit(1)
 
 if __name__ == "__main__":
     main()
