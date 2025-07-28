@@ -1,0 +1,7 @@
+{
+  "special_channels": [
+    {
+      "name": "Cartoon network",
+      "page_url": "http://s7.merlive.am/CartoonNetwork/index.m3u8",
+      "stream_identifier": "s7.merlive.am"
+    }
