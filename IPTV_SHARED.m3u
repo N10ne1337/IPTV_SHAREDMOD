@@ -305,7 +305,7 @@ https://mhd128.iptv2022.com/p/x7lex1ZzQAn9tbeS3aXqTw,1755896418/streaming/footba
 https://mhd128.iptv2022.com/p/p5DmdoGkPlSSO3QJUcihKw,1755896418/streaming/footbal3hd/324/1/tracks-v5a1/mono.m3u8
 
 #EXTINF:-1 tvg-id="setanta-sports" group-title="Спортивные", Setanta Sports 1 HD
-http://158.160.149.81:8080/4536/index.m3u8
+http://tooontv.com:999/live/ere3444h/agape/1038.
 
 #EXTINF:-1 tvg-id="setanta-sports-plus" group-title="Спортивные", Setanta Sports 2 HD
 http://158.160.149.81:8080/8829/index.m3u8
@@ -1859,7 +1859,7 @@ http://178.134.1.158:8081/nickelodeon/index.m3u8
 http://158.160.149.81:8080/520/tracks-v1a2/mono.m3u8
 
 #EXTINF:-1 group-title="Детские", TiJi
-http://178.219.160.169:8880/129/index.m3u8
+http://45.159.74.22/Tiji/mono.m3u8
 
 #EXTINF:-1 group-title="Детские", JimJam
 http://178.217.72.66:8080/JimJam/index.m3u8
@@ -3463,3 +3463,18 @@ http://94.43.1.138:8081/setanta2/index.m3u8
 
 #EXTINF:-1 tvg-id="fuel-tv-hd" group-title="Спортивные", Fuel TV HD
 https://amg01074-fueltv-fueltvemeaen-rakuten-b6j62.amagi.tv/hls/amagi_hls_data_rakutenAA-fueltvemeaen/CDN/master.m3u8
+
+#EXTINF:-1 tvg-id="qsport-kg" group-title="Спортивные", Q Sport Киргизия
+http://95.85.109.219:7000/play/a05u
+
+#EXTINF:-1 tvg-id="sky-sports-laliga-mx" group-title="Спортивные", Sky Sports LaLiga [MX]
+http://181.78.106.127:9000/play/ca030/index.m3u8
+
+#EXTINF:-1 tvg-id="eleven-sports-1" group-title="Спортивные", Eleven Sports 1 HD [PL]
+https://kusnadipepenk.github.io/ntn/ele1.m3u8
+
+#EXTINF:-1 tvg-id="eleven-sport1-pt" group-title="Спортивные", DAZN 1 PT
+http://tooontv.com:999/live/ere3444h/agape/53387.ts
+
+#EXTINF:-1 tvg-id="eleven-sport2-pt" group-title="Спортивные", DAZN 2 PT
+http://tooontv.com:999/live/ere3444h/agape/53386.ts
