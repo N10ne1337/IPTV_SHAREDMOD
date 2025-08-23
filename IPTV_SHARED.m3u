@@ -3478,3 +3478,6 @@ http://tooontv.com:999/live/ere3444h/agape/53387.ts
 
 #EXTINF:-1 tvg-id="eleven-sport2-pt" group-title="Спортивные", DAZN 2 PT
 http://tooontv.com:999/live/ere3444h/agape/53386.ts
+
+#EXTINF:-1 tvg-logo="https://oktyabrskadm.ru/c/galb/12779.jpg", ПРОФИЛАКТИЧЕСКИЕ РАБОТЫ
+https://raw.githubusercontent.com/IPTVSHARED/Apps/refs/heads/main/YouCut_20250823_104119654.mp4
