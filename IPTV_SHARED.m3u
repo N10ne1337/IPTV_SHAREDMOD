@@ -3439,7 +3439,7 @@ http://158.160.149.81:8080/8327/index.m3u8
 http://str6.oxtve.live:8080/h2hd/mpegts
 
 #EXTINF:-1 tvg-id="curiosity-stream" group-title="Познавательные", Curiosity Stream HD
-http://31.133.36.244:8000/174
+https://view.my-tv.biz/tv/7e0b703c7f/97fb80702f/video.m3u8
 
 #EXTINF:-1 tvg-id="hgtv" group-title="Познавательные", HGTV HD
 http://str6.oxtve.live:8080/HGTV_HD/mpegts
