@@ -286,7 +286,7 @@ http://api.peers.tv/timeshift/boets/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsI
 http://178.217.72.66:8080/Match_Igra_HD/video.m3u8
 
 #EXTINF:-1 tvg-id="match-nash-sport" group-title="Спортивные", Матч Страна
-http://37.186.120.3:8000/play/a06o/index.m3u8
+http://77.235.1.19:8000/play/a00f/index.m3u8
 
 #EXTINF:-1 tvg-id="match-premier" group-title="Спортивные", Матч! Премьер HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0
@@ -921,7 +921,7 @@ https://live-hls-viasat-secure-flus.cdnvideo.ru/viasat/TV1000_Action_HD.smil/tra
 https://live-hls-viasat-secure-flus.cdnvideo.ru/viasat/Romantika_HD.smil/tracks-v1a1/mono.ts.m3u8?filter.tracks=v1v2v3a1&md5=JXG7I7RArS4n5KstoFDc7A&e=1756483785&hls_proxy_host=e2c000defa6aa845b219ba5ca0db8ad5
 
 #EXTINF:-1 tvg-id="romance" group-title="Кино и сериалы",Romance
-http://37.186.120.3:8000/play/a0ao/index.m3u8
+http://158.160.149.81:8080/8823/index.m3u8
 
 #EXTINF:-1 tvg-id="cinema" group-title="Кино и сериалы",Cinema Космос ТВ
 http://178.124.152.238:8088/cinema
@@ -953,7 +953,7 @@ http://158.101.222.193:88/georgia_play.php?id=red
 #EXTINF:-1 catchup="append" catchup-days="7" catchup-source="&offset=${offset}" group-title="Кино и сериалы", .sci-fi
 http://api.peers.tv/timeshift/sonyscifi/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NTYxODg5ODAsImlhdCI6MTc1NjEwMjU4MCwiY2lkIjo2LCJ1aWQiOjkzOTY0NjIyNCwicmVnIjpmYWxzZSwiaXAiOjE1NTE3MDQzNTYsImFkdWx0IjpmYWxzZX0.4Lv0aDO09npdmMPTvlytJeSTZH_skj1KFgkepQf-WyY&offset=3
 
-#EXTINF:-1 tvg-id="sony-scifi" group-title="Кино и сериалы", Sony Sci-Fi HD
+#EXTINF:-1 tvg-id="sony-scifi" group-title="Кино и сериалы", Sony Sci-Fi
 http://158.101.222.193:88/georgia_play.php?id=scifi
 
 #EXTINF:-1 tvg-id="tvxxi" group-title="Кино и сериалы", TV21
@@ -965,11 +965,11 @@ https://livetv.mylifeisgood.net.ru/channels/strwc.m3u8
 #EXTINF:-1 tvg-id="start-world" group-title="Кино и сериалы",Start World HD
 https://livetv.mylifeisgood.net.ru/channels/strvf.m3u8
 
-#EXTINF:-1 tvg-id="star-cinema" group-title="Кино и сериалы", Star Cinema HD
-http://37.186.120.3:8000/play/a0e8/index.m3u8
+#EXTINF:-1 tvg-id="star-cinema" group-title="Кино и сериалы", Star Cinema
+http://178.217.72.66:8080/Russkiy_Illyuzion/tracks-v1a1/mono.m3u8
 
-#EXTINF:-1 tvg-id="star-family" group-title="Кино и сериалы", Star Family HD
-http://37.186.120.3:8000/play/a07s/index.m3u8
+#EXTINF:-1 tvg-id="star-family" group-title="Кино и сериалы", Star Family
+http://178.217.72.66:8080/Illyuzion+/tracks-v1a1/mono.m3u8
 
 #EXTINF:-1 tvg-id="plan-b" group-title="Кино и сериалы", Plan B
 http://85.117.61.97:8000/play/a016/index.m3u8
@@ -1077,13 +1077,13 @@ http://live-mirror-04.ott.tricolor.tv/dtv/id860_MSKSG-PVR-1--Kinojam_1/03/plst.m
 http://live-mirror-11.ott.tricolor.tv/dtv/id861_MSKSG-PVR-1--Kinojam_2/03/plst.m3u8?drmreq=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfdHlwZSI6ImFwdHBfb3R0IiwiY2xhc3MiOiJCUk9XU0VSIiwiZHJlaWQiOiI0NTAyNTUwMDM1ODM5NSIsImV4cCI6MTc1NjY5NjQ1OCwiaHdpZCI6IjhkMjA0NWE1N2E3NjVkYzUyMjVmYzJkZmRlNWY0NzViMDA0NzU0MmFlZDhjMWEyNGNlY2YzODNkY2ZjYmY2MjYiLCJsYXN0X3JlcV9kYXRlIjoxNzU2MDkxNjU4LCJzZXNzaW9uX2lkIjoiYmEyZDQzMTIwYjBkYzRlYTgxZTYzNWQ1Y2M4NjNhYmEiLCJ0b2tlbl90eXBlIjoiQ29udGVudEFjY2Vzc1Rva2VuIiwidHlwZSI6Ik1PWklMTEEifQ.Ea40cF64BROdyhMNmayouDZWdExgOHnUNGA36zhbe04
 
 #EXTINF:-1 tvg-id="kinoliving" group-title="Кино и сериалы",KinoLiving HD
-http://31.133.36.244:8000/51
+http://95.85.109.219:7000/play/a05x
 
 #EXTINF:-1 tvg-id="vip-comedy-cee" group-title="Кино и сериалы", Viasat Kino Comedy
 http://81.198.190.9:7878/VIPComedyHD/video.m3u8
 
 #EXTINF:-1 tvg-id="paramount-comedy" group-title="Кино и сериалы", Comedy Central
-http://vipl.one/low/7vad9xpjw8ry/406.m3u8
+http://141.95.55.143/CH295/index.m3u8
 
 #EXTINF:-1 tvg-id="trashtv" group-title="Кино и сериалы", Trash TV
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0
@@ -1126,7 +1126,7 @@ http://stream-msk-06.ott.tricolor.tv/dtv/id669_MSKSG-PVR-1--Flix_Snip/03/plst.m3
 http://178.217.72.66:8080/Lyubimoe_Kino/index.m3u8
 
 #EXTINF:-1 group-title="Кино и сериалы",Кинопремьера
-https://45.159.74.22/Kinopremera/mono.m3u8
+http://45.159.74.22/Kinopremera/mono.m3u8
 
 #EXTINF:-1 catchup="append" catchup-days="7" catchup-source="&offset=${offset}" group-title="Кино и сериалы",Кинопремьера HD
 http://api.peers.tv/timeshift/premera/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NTYxODg5ODAsImlhdCI6MTc1NjEwMjU4MCwiY2lkIjo2LCJ1aWQiOjkzOTY0NjIyNCwicmVnIjpmYWxzZSwiaXAiOjE1NTE3MDQzNTYsImFkdWx0IjpmYWxzZX0.4Lv0aDO09npdmMPTvlytJeSTZH_skj1KFgkepQf-WyY&offset=3
@@ -1177,7 +1177,7 @@ http://api.peers.tv/timeshift/comedytv/16/playlist.m3u8?token=eyJhbGciOiJIUzI1Ni
 http://api.peers.tv/timeshift/indiatv/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NTYxODg5ODAsImlhdCI6MTc1NjEwMjU4MCwiY2lkIjo2LCJ1aWQiOjkzOTY0NjIyNCwicmVnIjpmYWxzZSwiaXAiOjE1NTE3MDQzNTYsImFkdWx0IjpmYWxzZX0.4Lv0aDO09npdmMPTvlytJeSTZH_skj1KFgkepQf-WyY&offset=3
 
 #EXTINF:-1 tvg-id="rodnoe-kino" group-title="Кино и сериалы",Родное кино
-http://37.186.120.3:8000/play/a04v/index.m3u8
+http://178.163.117.7:4022/udp/234.0.0.177:2000
 
 #EXTINF:-1 tvg-id="muzhskoe-kino" group-title="Кино и сериалы", Мужское кино HD
 http://45.159.74.22/MujskoeKino/mono.m3u8
@@ -1195,16 +1195,16 @@ http://stream-msk-07.ott.tricolor.tv/dtv/id666_MSKSG-PVR-1--Den_Pobedy/03/plst.m
 http://api.peers.tv/timeshift/pobeda_hd/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NTYxODg5ODAsImlhdCI6MTc1NjEwMjU4MCwiY2lkIjo2LCJ1aWQiOjkzOTY0NjIyNCwicmVnIjpmYWxzZSwiaXAiOjE1NTE3MDQzNTYsImFkdWx0IjpmYWxzZX0.4Lv0aDO09npdmMPTvlytJeSTZH_skj1KFgkepQf-WyY&offset=3
 
 #EXTINF:-1 tvg-id="shot-tv" group-title="Кино и сериалы", Shot TV
-http://37.186.120.3:8000/play/a088/index.m3u8
+http://77.235.1.19:8000/play/a075/index.m3u8
 
 #EXTINF:-1 tvg-id="tvoyo-tv-hd" group-title="Кино и сериалы",Твоё ТВ HD
 http://tvoetv.space:8080/tvoetv/index.m3u8
 
 #EXTINF:-1 group-title="Кино и сериалы",Hollywood
-http://213.230.65.254:8000/play/a02h
+http://stream1.prizma.link/HollywoodSD/index.m3u8
 
 #EXTINF:-1 group-title="Кино и сериалы",Hollywood HD
-http://178.217.72.66:8080/hollywoodhd/index.m3u8
+http://stream1.prizma.link/Hollywood/index.m3u8
 
 #EXTINF:-1 tvg-id="cinema-ru" group-title="Кино и сериалы",Cinema
 http://stream-msk-06.ott.tricolor.tv/dtv/id423_MSKSG-PVR-1--Cinema/03/plst.m3u8?drmreq=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBfdHlwZSI6ImFwdHBfb3R0IiwiY2xhc3MiOiJCUk9XU0VSIiwiZHJlaWQiOiI0NTAyNTUwMDM1ODM5NSIsImV4cCI6MTc1NjY5NjQ1OCwiaHdpZCI6IjhkMjA0NWE1N2E3NjVkYzUyMjVmYzJkZmRlNWY0NzViMDA0NzU0MmFlZDhjMWEyNGNlY2YzODNkY2ZjYmY2MjYiLCJsYXN0X3JlcV9kYXRlIjoxNzU2MDkxNjU4LCJzZXNzaW9uX2lkIjoiYmEyZDQzMTIwYjBkYzRlYTgxZTYzNWQ1Y2M4NjNhYmEiLCJ0b2tlbl90eXBlIjoiQ29udGVudEFjY2Vzc1Rva2VuIiwidHlwZSI6Ik1PWklMTEEifQ.Ea40cF64BROdyhMNmayouDZWdExgOHnUNGA36zhbe04
@@ -3488,3 +3488,12 @@ http://45.159.74.22/Channel_120/index.m3u8
 
 #EXTINF:-1 tvg-id="nicktoons" group-title="Детские", Nicktoons HD
 http://45.159.74.22/Boomerang/mono.m3u8
+
+#EXTINF:-1 group-title="Кино и сериалы", VIJU+ PREMIERE
+http://141.95.55.143/CH315/index.m3u8
+
+#EXTINF:-1 group-title="Кино и сериалы",VIJU+ MEGAHIT
+http://141.95.55.143/CH313/index.m3u8
+
+#EXTINF:-1 group-title="Кино и сериалы", VIJU+ COMEDY
+http://141.95.55.143/CH311/index.m3u8
