@@ -1898,7 +1898,7 @@ http://api.peers.tv/timeshift/skazkizayki/16/playlist.m3u8?token=eyJhbGciOiJIUzI
 http://132544.edgevideo.ru/streams/132544_713325/1325441080/index.m3u8
 
 #EXTINF:-1 tvg-id="aiva" group-title="Музыкальные", AIVA HD
-http://193.33.88.172/aiva_hd/tracks-v1a1/mono.m3u8
+http://185.78.112.17/aiva_hd/index.m3u8
 
 #EXTINF:-1 tvg-logo="https://epg.iptvx.one/picons/4fun.png" tvg-id="4fun" group-title="Музыкальные", 4fun.TV
 https://stream.4fun.tv:8888/hls/4f_high/index.m3u8
@@ -3107,7 +3107,7 @@ http://95.66.188.74/VHS/index.m3u8
 http://185.26.157.3:8080/live/boomerang/mono.m3u8
 
 #EXTINF:-1 tvg-id="okko-sport-2" group-title="Спортивные", Окко.Прайм Спорт
-http://185.221.213.254:8080/Okko/index.m3u8
+http://185.221.213.254:8080/Okko/tracks-v1a1/index.m3u8
 
 #EXTINF:-1 catchup="append" catchup-days="7" catchup-source="&offset=${offset}" group-title="Кино и сериалы",VIP MEGAHIT HD
 http://api.peers.tv/timeshift/tv1000_megahit_hd/16/playlist.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhY2Nlc3MiLCJleHAiOjE3NTk0ODI5ODAsImlhdCI6MTc1OTM5NjU4MCwiY2lkIjo2LCJ1aWQiOjk0OTc2MDQ2MiwicmVnIjpmYWxzZSwiaXAiOjE1NTE3MDQzNTYsImFkdWx0IjpmYWxzZX0.wJXD0gtyHwYHHxEZ4hVb3pZIO_4p33pTHGoHwg3fZu0&offset=3
