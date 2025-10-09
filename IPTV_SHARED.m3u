@@ -971,7 +971,7 @@ http://84.245.224.71/StarCinemaHD/mono.m3u8
 http://84.245.224.71/StarFamilyHD/mono.m3u8
 
 #EXTINF:-1 tvg-id="plan-b" group-title="Кино и сериалы", Plan B
-http://195.64.140.147:10082/82
+http://s1.merlive.am/planbhd/index.m3u8
 
 #EXTINF:-1 tvg-id="suspense" group-title="Кино и сериалы", Suspense
 http://77.235.1.19:8000/play/a051/index.m3u8
@@ -983,7 +983,7 @@ http://vod.splay.uz/live_splay/original/Retro/index.m3u8
 http://95.85.109.219:7000/play/a05w
 
 #EXTINF:-1 tvg-id="atv-kinoman" group-title="Кино и сериалы", ATV Kinoman
-http://45.159.74.22/Kinoman/mono.m3u8
+http://s1.merlive.am/Kinoman/index.m3u8
 
 #EXTINF:-1 tvg-id="atv-bazmoc" group-title="Кино и сериалы", ATV Bazmoc TV
 http://45.159.74.22/Channel_118/tracks-v1a1/mono.m3u8
@@ -2013,7 +2013,7 @@ https://lightning-now90s-samsungnz.amagi.tv/playlist.m3u8
 https://lightning-now70s-samsungnz.amagi.tv/playlist.m3u8
 
 #EXTINF:-1 tvg-id="now80s" group-title="Музыкальные", Now 80's
-https://lightning-now80s-samsungnz.amagi.tv/playlist.m3u8
+http://213.252.199.137:8000/play/ch356_VH1_classic/index.m3u8
 
 #EXTINF:-1 tvg-id="retro-music-cz" tvg-logo="https://iptvx.one/picons/retro-music-cz.png" group-title="Музыкальные", Retro Music TV
 http://78.130.250.2:8023/play/a02r/index.m3u8
